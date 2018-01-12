@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Ship : MonoBehaviour {
 
@@ -29,10 +27,15 @@ public class Ship : MonoBehaviour {
         switch (collision.gameObject.tag)
         {
             case "Friendly":
-                print("ok");
+                //do nothing
+                break;
+            case "Finish":
+                print("hit finish");
+                SceneManager.LoadScene(1);
                 break;
             default:
                 print("dead");
+                SceneManager.LoadScene(0);
                 break;
         }
     }
