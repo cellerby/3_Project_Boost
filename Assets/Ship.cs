@@ -10,6 +10,9 @@ public class Ship : MonoBehaviour {
     Rigidbody rigidBody;
     AudioSource audioSource;
 
+    enum State { Alive, Dying, Transcending}
+    State state = State.Alive;
+
     // Use this for initialization
     void Start () {
         rigidBody = GetComponent<Rigidbody>();
@@ -30,14 +33,25 @@ public class Ship : MonoBehaviour {
                 //do nothing
                 break;
             case "Finish":
-                print("hit finish");
-                SceneManager.LoadScene(1);
+                //print("hit finish");
+                state = State.Transcending;
+                Invoke("LoadNextLevel", 1f);
                 break;
             default:
-                print("dead");
-                SceneManager.LoadScene(0);
+                state = State.Dying;
+                Invoke("LoadFirstLevel", 1f);
                 break;
         }
+    }
+
+    private void LoadNextLevel() //
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Thrust()
