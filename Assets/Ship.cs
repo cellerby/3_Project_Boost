@@ -21,14 +21,20 @@ public class Ship : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (state == State.Alive)
+        {
         Thrust();
         Rotate();
+        }
+
 	}
 
     void OnCollisionEnter(Collision collision)
     {
+        if (state != State.Alive){return;}
         switch (collision.gameObject.tag)
         {
+            
             case "Friendly":
                 //do nothing
                 break;
