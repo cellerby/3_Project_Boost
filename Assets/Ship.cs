@@ -6,7 +6,7 @@ public class Ship : MonoBehaviour {
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
 
-
+    // Adding a comment
     Rigidbody rigidBody;
     AudioSource audioSource;
 
