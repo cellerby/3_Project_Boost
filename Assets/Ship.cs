@@ -5,6 +5,7 @@ public class Ship : MonoBehaviour {
 
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] AudioClip mainEngine;
 
     // Adding a comment
     Rigidbody rigidBody;
@@ -68,7 +69,7 @@ public class Ship : MonoBehaviour {
 
             if (!audioSource.isPlaying)
             {
-                audioSource.Play();
+                audioSource.PlayOneShot(mainEngine);
             }
         }
         else
@@ -86,6 +87,7 @@ public class Ship : MonoBehaviour {
         if (Input.GetKey(KeyCode.A))
         {
             transform.Rotate(Vector3.forward * rotationThisFrame);
+           
         }
         else if (Input.GetKey(KeyCode.D))
         {
