@@ -6,6 +6,8 @@ public class Ship : MonoBehaviour {
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
     [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip deathExplosion;
+    [SerializeField] AudioClip levelStart;
 
     // Adding a comment
     Rigidbody rigidBody;
@@ -24,15 +26,18 @@ public class Ship : MonoBehaviour {
 	void Update () {
         if (state == State.Alive)
         {
-        Thrust();
-        Rotate();
+        RespondToThrustInput();
+        RespondToRotateInput();
         }
 
 	}
 
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive){return;}
+        if (state != State.Alive)
+        {
+            return;
+        }
         switch (collision.gameObject.tag)
         {
             
@@ -61,16 +66,11 @@ public class Ship : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
-    private void Thrust()
+    private void RespondToThrustInput()
     {
         if (Input.GetKey(KeyCode.Space)) // can trust while rotating
         {
-            rigidBody.AddRelativeForce(Vector3.up * mainThrust);
-
-            if (!audioSource.isPlaying)
-            {
-                audioSource.PlayOneShot(mainEngine);
-            }
+            ApplyThrust();
         }
         else
         {
@@ -78,7 +78,17 @@ public class Ship : MonoBehaviour {
         }
     }
 
-    private void Rotate()
+    private void ApplyThrust()
+    {
+        rigidBody.AddRelativeForce(Vector3.up * mainThrust);
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(mainEngine);
+        }
+    }
+
+    private void RespondToRotateInput()
     {
         rigidBody.freezeRotation = true; //take manual control of rotation
 
