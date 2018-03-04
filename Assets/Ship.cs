@@ -7,7 +7,7 @@ public class Ship : MonoBehaviour {
     [SerializeField] float mainThrust = 100f;
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip deathExplosion;
-    [SerializeField] AudioClip levelStart;
+    [SerializeField] AudioClip win;
 
     // Adding a comment
     Rigidbody rigidBody;
@@ -20,14 +20,15 @@ public class Ship : MonoBehaviour {
     void Start () {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-	}
+        audioSource.PlayOneShot(win);
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (state == State.Alive)
         {
-        RespondToThrustInput();
-        RespondToRotateInput();
+            RespondToThrustInput();
+            RespondToRotateInput();
         }
 
 	}
@@ -45,25 +46,44 @@ public class Ship : MonoBehaviour {
                 //do nothing
                 break;
             case "Finish":
-                //print("hit finish");
-                state = State.Transcending;
-                Invoke("LoadNextLevel", 1f);
+                StartSuccessSequence();
                 break;
             default:
-                state = State.Dying;
-                Invoke("LoadFirstLevel", 1f);
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dying;
+        audioSource.Stop();
+        audioSource.PlayOneShot(deathExplosion);
+        Invoke("LoadFirstLevel", 1f);
+    }
+
+    private void StartSuccessSequence()
+    {
+        state = State.Transcending;
+        audioSource.Stop();
+        audioSource.PlayOneShot(win);
+        Invoke("LoadNextLevel", 1f);
     }
 
     private void LoadNextLevel() //
     {
         SceneManager.LoadScene(1);
+        
     }
 
     private void LoadFirstLevel()
     {
         SceneManager.LoadScene(0);
+    }
+
+    private void PlayIntroSong()
+    {
+        audioSource.PlayOneShot(win);
     }
 
     private void RespondToThrustInput()
