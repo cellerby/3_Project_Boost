@@ -13,18 +13,20 @@ public class Ship : MonoBehaviour {
     Rigidbody rigidBody;
     AudioSource audioSource;
 
-    enum State { Alive, Dying, Transcending}
+    enum State { Alive, Dying, Transcending }
     State state = State.Alive;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         audioSource.PlayOneShot(win);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         if (state == State.Alive)
         {
             RespondToThrustInput();
