@@ -74,8 +74,7 @@ public class Ship : MonoBehaviour {
 
     private void LoadNextLevel() //
     {
-        SceneManager.LoadScene(1);
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void LoadFirstLevel()
