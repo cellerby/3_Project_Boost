@@ -9,6 +9,10 @@ public class Ship : MonoBehaviour {
     [SerializeField] AudioClip deathExplosion;
     [SerializeField] AudioClip win;
 
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem deathExplosionParticles;
+    [SerializeField] ParticleSystem winParticles;
+
     // Adding a comment
     Rigidbody rigidBody;
     AudioSource audioSource;
@@ -61,6 +65,7 @@ public class Ship : MonoBehaviour {
         state = State.Dying;
         audioSource.Stop();
         audioSource.PlayOneShot(deathExplosion);
+        deathExplosionParticles.Play();
         Invoke("LoadFirstLevel", 1f);
     }
 
@@ -69,6 +74,7 @@ public class Ship : MonoBehaviour {
         state = State.Transcending;
         audioSource.Stop();
         audioSource.PlayOneShot(win);
+        winParticles.Play();
         Invoke("LoadNextLevel", 1f);
     }
 
@@ -96,6 +102,7 @@ public class Ship : MonoBehaviour {
         else
         {
             audioSource.Stop();
+            mainEngineParticles.Stop();
         }
     }
 
@@ -107,6 +114,7 @@ public class Ship : MonoBehaviour {
         {
             audioSource.PlayOneShot(mainEngine);
         }
+        mainEngineParticles.Play();
     }
 
     private void RespondToRotateInput()
