@@ -5,6 +5,8 @@ public class Ship : MonoBehaviour {
 
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] float levelLoadDelay = 2f;
+
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip deathExplosion;
     [SerializeField] AudioClip win;
@@ -66,7 +68,7 @@ public class Ship : MonoBehaviour {
         audioSource.Stop();
         audioSource.PlayOneShot(deathExplosion);
         deathExplosionParticles.Play();
-        Invoke("LoadFirstLevel", 1f);
+        Invoke("LoadFirstLevel", levelLoadDelay);
     }
 
     private void StartSuccessSequence()
@@ -75,7 +77,7 @@ public class Ship : MonoBehaviour {
         audioSource.Stop();
         audioSource.PlayOneShot(win);
         winParticles.Play();
-        Invoke("LoadNextLevel", 1f);
+        Invoke("LoadNextLevel", levelLoadDelay);
     }
 
     private void LoadNextLevel() //
@@ -108,7 +110,7 @@ public class Ship : MonoBehaviour {
 
     private void ApplyThrust()
     {
-        rigidBody.AddRelativeForce(Vector3.up * mainThrust);
+        rigidBody.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
 
         if (!audioSource.isPlaying)
         {
