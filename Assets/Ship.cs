@@ -22,6 +22,8 @@ public class Ship : MonoBehaviour {
     enum State { Alive, Dying, Transcending }
     State state = State.Alive;
 
+    bool collisionDisabled = false;
+
     // Use this for initialization
     void Start ()
     {
@@ -37,13 +39,15 @@ public class Ship : MonoBehaviour {
         {
             RespondToThrustInput();
             RespondToRotateInput();
+            
         }
 
-	}
+        DebugKeys();
+    }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (state != State.Alive)
+        if (state != State.Alive || collisionDisabled)
         {
             return;
         }
@@ -137,6 +141,17 @@ public class Ship : MonoBehaviour {
 
         rigidBody.freezeRotation = false; //resume physics control of rotation
 
+    }
+
+    private void DebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }else if (Input.GetKeyDown(KeyCode.C))
+        {
+            collisionDisabled = !collisionDisabled;
+        }
     }
 
 
