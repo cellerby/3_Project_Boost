@@ -42,7 +42,10 @@ public class Ship : MonoBehaviour {
             
         }
 
-        DebugKeys();
+        if (Debug.isDebugBuild)
+        {
+            DebugKeys();
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -86,7 +89,13 @@ public class Ship : MonoBehaviour {
 
     private void LoadNextLevel() //
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextLevelIndex = currentLevelIndex + 1;
+        if (nextLevelIndex == SceneManager.sceneCountInBuildSettings)
+        {
+            nextLevelIndex = 0;
+        }
+        SceneManager.LoadScene(nextLevelIndex);
     }
 
     private void LoadFirstLevel()
